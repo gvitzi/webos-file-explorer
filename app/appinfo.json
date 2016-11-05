@@ -1,0 +1,11 @@
+{
+    "id": "com.gilvitzi.explorer",
+    "version": "1.0.0",
+    "vendor": "Gil Vitzinger",
+    "type": "web",
+    "main": "index.html",
+    "title": "WebOS File Explorer",
+    "icon": "icon.png",
+    "largeIcon": "largeIcon.png",
+    "uiRevision":2
+}

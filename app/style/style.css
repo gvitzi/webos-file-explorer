@@ -1,0 +1,21 @@
+h1.header {
+	text-align: center;
+}
+div.content {
+	font-size: 40px;
+	margin-left: 5px;
+}
+.error {
+	color: red;
+}
+tr.folder td.icon {
+	color: #f4b342;
+}
+tr.file td.icon {
+	color: #4289f4;
+}
+tr.file.hidden {
+	color: darkgray;
+}
+
+	

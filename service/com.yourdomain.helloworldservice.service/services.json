@@ -1,0 +1,18 @@
+{
+	"id": "com.gilvitzi.explorer.service",
+	"description": "File Explorer Service",
+	"services": [ {
+		"name": "com.gilvitzi.explorer.service",
+		"description": "File Explorer Service",
+		"commands": [ { 
+			"name": "hello", 
+			"public": true
+				},
+				 {
+			"name": "getFiles", 
+			"public": true
+				}
+			] 
+		} 
+	]
+}
