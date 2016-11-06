@@ -2,37 +2,46 @@
 <html>
 <head>
 	<script type="text/javascript" src="lib/webOS.js"></script>
+
 	<!-- Latest compiled and minified CSS -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	<!-- jQuery library -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 	<!-- Latest compiled JavaScript -->
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	
+	<script type="text/javascript" src="lib/jquery.scrollTo.min.js"></script>
 
 	<link rel="stylesheet" type="text/css" href="style/style.css">
 	<script type="text/javascript" src="js/script.js"></script>
 </head>
 <body>
-	<div class="content">
+	<div id="header">
 		<h1 class="header">WebOS File Explorer</h1> 
 
 		<div id="fileListError" class="error"></div>
 		<span>location: </span><span id="location"></span>
-		<table class="table table-hover">
-			<thead>
-				<tr>
-					<th class="col-md-0"></th>
-					<th class="col-md-8">Name</th>
-					<th class="col-md-4">size</th>
-				</tr>
-			</thead>
-			<tbody id="fileList" />
-		</table>
 	</div>
+	
+	<table class="table">
+		<thead>
+			<tr>
+				<th class="col-md-0"></th>
+				<th class="col-md-8">Name</th>
+				<th class="col-md-4">size</th>
+			</tr>
+		</thead>
+		<tbody id="fileList" />
+	</table>
+
 	<script type="text/javascript">
-		var initialDirectory = '/media/';
+		var initialDirectory = '/';
 		$( document ).ready(function() {
-			getFiles(initialDirectory);
+			setTimeout(1000, getFiles(initialDirectory));
+
+			document.addEventListener('keydown', function(inEvent){
+				handleKeyPress(inEvent);
+			});
 		});
 	</script>
 </body>

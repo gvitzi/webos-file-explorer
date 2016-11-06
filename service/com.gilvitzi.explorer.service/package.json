@@ -2,7 +2,7 @@
   "name": "com.gilvitzi.explorer.service",
   "version": "1.0.0",
   "description": "File Explorer service",
-  "main": "helloworld_webos_service.js",
+  "main": "explorer_service.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

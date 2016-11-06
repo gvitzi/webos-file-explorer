@@ -3,12 +3,6 @@ var service = new Service("com.gilvitzi.explorer.service");
 var fs = require('fs');
 var path = require("path");
 
-service.register("hello", function(message) {
-	message.respond({
-		data: "Hello, " + message.payload.name + "!"
-	});
-});
-
 service.register("getFiles", function(message) {
 	var dir = message.payload.path;
 	dir = path.normalize(dir);

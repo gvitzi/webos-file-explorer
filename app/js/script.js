@@ -42,10 +42,12 @@ function showFiles(inResponse)	{
 		}
 
 		// for each entry check if folder or file and add to list
-		entries.forEach(function(entry) {
-			var newRow = createNewRow(entry);
+		entries.forEach(function(entry, index) {
+			var newRow = createNewRow(entry, index);
 			tbody.append(newRow);
 		});
+
+		tbody.first().addClass('selected');
 	}
 	else {
 		showFailure(inResponse);
@@ -53,15 +55,15 @@ function showFiles(inResponse)	{
 	return true;
 }
 
-function createNewRow(entry) {
-	var tr = $("<tr>");
+function createNewRow(entry, index) {
+	var tr = $("<tr tabindex='" + (101 + index) + "'>");
 
 	var icondTd = $("<td class='icon'>");
 	var iconSpan = $("<span>");
 	icondTd.append(iconSpan);
 	iconSpan.addClass("glyphicon");
 
-	var nameTd = $("<td>");
+	var nameTd = $("<td class='name'>");
 	var sizeTd = $("<td>");
 
 	if (entry.type == "folder") {
@@ -87,13 +89,18 @@ function createNewRow(entry) {
 		tr.addClass('hidden');
 	}
 	tr.addClass(entry.type);
+	
+	tr.hover(function() {
+		$('tr.selected').removeClass('selected');
+		tr.addClass('selected');
+	});
 	return tr;
 }
 
 function createUpOneLevelRow() {
 	// add up one folder
-	var tr = $("<tr>");
-	var nameTd = $("<td>");
+	var tr = $("<tr class='folder' tabindex='" + 100 + "'>");
+	var nameTd = $("<td class='name'>");
 	var path = $("#location").html();
 
 	tr.on('click', function(){
@@ -105,4 +112,78 @@ function createUpOneLevelRow() {
 	tr.append($("<td>"));
 	
 	return tr;
+}
+
+function handleKeyPress(inEvent) {
+	inEvent.preventDefault();
+	//console.log("key pressed! keyCode = " + inEvent.keyCode);
+	var keycode;
+ 
+	if(window.event) { 
+		keycode = inEvent.keyCode;
+	} else if(e.which) { 
+		keycode = inEvent.which;
+	} 
+	switch(keycode) {
+		case 13: onRemoteKeyOk(); break; 
+		case 38: onRemoteKeyUp(); break;
+		case 40: onRemoteKeyDown(); break;
+	}
+}
+
+function onRemoteKeyOk() {
+	clickOnSelectedElement();
+}
+
+function onRemoteKeyUp() {
+	focusPrevElement();
+}
+
+function onRemoteKeyDown() {
+	focusNextElement();
+}
+
+function clickOnSelectedElement(){
+	var $selectedName = $('tr.selected td.name');
+
+	if ($selectedName.length > 0 && selectedRowIsFolder()) {
+		var name = $selectedName.html() == "" ? '/../' : $selectedName.html();
+		var $location = $("#location");
+		var path = $location.html() + "/" + name;
+		getFiles(path);
+	}
+}
+
+function selectedRowIsFolder($element) {
+	return $('tr.selected').hasClass('folder');
+}
+
+function focusPrevElement(element) {
+	// Get all focusable elements on the page
+	var $canfocus = $('[tabIndex]');
+	var $selected = $('tr.selected');
+	var index = $canfocus.index($selected) - 1;
+	if (index < 0) index = $canfocus.length -1;
+	$selected.removeClass('selected');
+	var $newSelected = $canfocus.eq(index);
+	$newSelected.addClass('selected');
+	scrollTo($('tbody#fileList'), $newSelected);
+}
+
+function focusNextElement() {
+	// Get all focusable elements on the page
+	var $canfocus = $('[tabIndex]');
+	var $selected = $('tr.selected');
+	var index = $canfocus.index($selected) + 1;
+	if (index >= $canfocus.length) index = 0;
+	$selected.removeClass('selected');
+	var $newSelected = $canfocus.eq(index);
+	$newSelected.addClass('selected');
+	$('#fileList').scrollTo($newSelected);
+}
+
+function scrollTo($target, $element, animationTime) {
+	$target.animate({
+        scrollTop: $element.offset().top
+    }, 1000);
 }
